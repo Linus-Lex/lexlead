@@ -271,10 +271,6 @@ app.post('/login', async (req, res) => {
   }
   req.session.userId = user.id;
   res.redirect('/dashboard');
-
-  <div style="text-align:center;margin-top:14px">
-  <a href="/passwort-vergessen" class="text-sm text-muted">Passwort vergessen?</a>
-</div>
 });
 
 app.post('/register', async (req, res) => {
