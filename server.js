@@ -291,6 +291,102 @@ app.get('/logout', (req, res) => {
   res.redirect('/login?success=Erfolgreich+ausgeloggt');
 });
 
+// ─── PASSWORT RESET ───────────────────────────────────────────────────────────
+
+const resetCodes = {}; // In-Memory: { email: { code, expires } }
+
+app.get('/passwort-vergessen', (req, res) => {
+  res.send(`<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passwort vergessen – LexLead</title>${baseStyles}<style>
+    .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+    .auth-box{width:100%;max-width:400px;}
+    .auth-logo{text-align:center;margin-bottom:32px;}
+    .auth-logo h1{font-size:2rem;font-weight:900;color:var(--accent);}
+    .auth-logo p{color:var(--muted);font-size:0.9rem;margin-top:4px;}
+    .auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;}
+  </style></head><body>
+  <div class="auth-page"><div class="auth-box">
+    <div class="auth-logo"><h1>⬟ LexLead</h1><p>Passwort zurücksetzen</p></div>
+    <div class="auth-card">
+      ${req.query.error ? `<div class="alert alert-error">${req.query.error}</div>` : ''}
+      ${req.query.success ? `<div class="alert alert-success">${req.query.success}</div>` : ''}
+      <p class="text-muted text-sm" style="margin-bottom:18px">Gib deine E-Mail-Adresse ein. Du erhältst einen 6-stelligen Code zum Zurücksetzen.</p>
+      <form method="POST" action="/passwort-vergessen">
+        <div class="form-group"><label>E-Mail-Adresse</label><input type="email" name="email" placeholder="makler@beispiel.de" required autofocus></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:11px;">Code senden</button>
+      </form>
+      <div style="text-align:center;margin-top:16px"><a href="/login" class="text-sm text-muted">← Zurück zum Login</a></div>
+    </div>
+  </div></div>
+  </body></html>`);
+});
+
+app.post('/passwort-vergessen', (req, res) => {
+  const email = req.body.email?.toLowerCase().trim();
+  const user = db.getUserByEmail(email);
+
+  // Immer gleiche Meldung — verhindert dass man herausfindet ob Account existiert
+  const successMsg = 'Falls diese E-Mail registriert ist, wurde ein Code gesendet. Prüfe auch deinen Spam-Ordner.';
+
+  if (!user) return res.redirect('/passwort-vergessen?success=' + encodeURIComponent(successMsg));
+
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  resetCodes[email] = { code, expires: Date.now() + 15 * 60 * 1000 }; // 15 Minuten gültig
+
+  console.log(`🔑 Passwort-Reset Code für ${email}: ${code}`); // Sichtbar in Render Logs
+
+  res.redirect('/passwort-vergessen?success=' + encodeURIComponent(successMsg));
+});
+
+app.get('/neues-passwort', (req, res) => {
+  res.send(`<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neues Passwort – LexLead</title>${baseStyles}<style>
+    .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+    .auth-box{width:100%;max-width:400px;}
+    .auth-logo{text-align:center;margin-bottom:32px;}
+    .auth-logo h1{font-size:2rem;font-weight:900;color:var(--accent);}
+    .auth-logo p{color:var(--muted);font-size:0.9rem;margin-top:4px;}
+    .auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;}
+  </style></head><body>
+  <div class="auth-page"><div class="auth-box">
+    <div class="auth-logo"><h1>⬟ LexLead</h1><p>Neues Passwort setzen</p></div>
+    <div class="auth-card">
+      ${req.query.error ? `<div class="alert alert-error">${req.query.error}</div>` : ''}
+      ${req.query.success ? `<div class="alert alert-success">${req.query.success}</div>` : ''}
+      <p class="text-muted text-sm" style="margin-bottom:18px">Gib deinen Code aus den Render-Logs und dein neues Passwort ein.</p>
+      <form method="POST" action="/neues-passwort">
+        <div class="form-group"><label>E-Mail-Adresse</label><input type="email" name="email" placeholder="makler@beispiel.de" required autofocus></div>
+        <div class="form-group"><label>6-stelliger Code</label><input type="text" name="code" placeholder="123456" maxlength="6" required pattern="[0-9]{6}"></div>
+        <div class="form-group"><label>Neues Passwort</label><input type="password" name="password" placeholder="Min. 6 Zeichen" required minlength="6"></div>
+        <div class="form-group"><label>Passwort wiederholen</label><input type="password" name="password2" placeholder="Min. 6 Zeichen" required minlength="6"></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:11px;">Passwort ändern</button>
+      </form>
+      <div style="text-align:center;margin-top:16px"><a href="/login" class="text-sm text-muted">← Zurück zum Login</a></div>
+    </div>
+  </div></div>
+  </body></html>`);
+});
+
+app.post('/neues-passwort', async (req, res) => {
+  const { email, code, password, password2 } = req.body;
+  const emailClean = email?.toLowerCase().trim();
+
+  if (password !== password2)
+    return res.redirect('/neues-passwort?error=Passwörter+stimmen+nicht+überein');
+  if (password.length < 6)
+    return res.redirect('/neues-passwort?error=Passwort+zu+kurz+(min.+6+Zeichen)');
+
+  const entry = resetCodes[emailClean];
+  if (!entry || entry.code !== code)
+    return res.redirect('/neues-passwort?error=Code+ungültig+oder+abgelaufen');
+  if (Date.now() > entry.expires)
+    return res.redirect('/neues-passwort?error=Code+abgelaufen+-+bitte+neu+anfordern');
+
+  const hash = await bcrypt.hash(password, 10);
+  db.db.run(`UPDATE users SET password = ? WHERE email = ?`, [hash, emailClean]);
+  db.saveDB();
+  delete resetCodes[emailClean];
+
+  res.redirect('/login?success=Passwort+erfolgreich+geändert');
+});
 // ─── DASHBOARD ────────────────────────────────────────────────────────────────
 
 app.get('/dashboard', auth, (req, res) => {
