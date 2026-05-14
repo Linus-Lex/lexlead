@@ -243,7 +243,7 @@ app.get('/login', (req, res) => {
             <div class="form-group"><label>Maklerbüro (optional)</label><input type="text" name="firma" placeholder="Immobilien GmbH"></div>
             <div class="form-group"><label>E-Mail</label><input type="email" name="email" placeholder="makler@beispiel.de" required></div>
             <div class="form-group"><label>Passwort</label><input type="password" name="password" placeholder="Min. 6 Zeichen" required minlength="6"></div>
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:11px;">14 Tage kostenlos testen</button>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:11px;">30 Tage kostenlos testen</button>
           </form>
         </div>
       </div>
