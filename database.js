@@ -118,7 +118,7 @@ function saveDB() {
 
 function createUser(name, email, password, firma) {
   db.run(
-    `INSERT INTO users (name, email, password, firma, trial_ends) VALUES (?, ?, ?, ?, datetime('now', '+14 days'))`,
+    `INSERT INTO users (name, email, password, firma, trial_ends) VALUES (?, ?, ?, ?, datetime('now', '+30 days'))`,
     [name, email, password, firma || '']
   );
   saveDB();
