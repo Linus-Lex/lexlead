@@ -1399,6 +1399,203 @@ app.get('/logout', (req, res) => {
   res.redirect('/login?success=Erfolgreich+ausgeloggt');
 });
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Impressum & Datenschutz – LexLead</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0c10; --bg2: #111318; --border: #252830;
+      --text: #e8eaf0; --muted: #7c8298; --accent: #4f8ef7;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; line-height: 1.8;
+    }
+    .nav {
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 0 24px; display: flex; align-items: center;
+      height: 60px; position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand { font-weight: 800; font-size: 1.15rem; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .nav-right { margin-left: auto; }
+    .nav-right a { color: var(--muted); font-size: 0.9rem; text-decoration: none; }
+    .nav-right a:hover { color: var(--text); }
+    .page { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 40px; }
+    .tab {
+      padding: 9px 20px; border-radius: 8px; cursor: pointer;
+      font-weight: 600; font-size: 0.9rem; border: 1px solid var(--border);
+      color: var(--muted); background: transparent; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .pane { display: none; }
+    .pane.active { display: block; }
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+    h2 { font-size: 1.05rem; font-weight: 700; margin: 32px 0 10px; color: var(--accent); }
+    h3 { font-size: 0.95rem; font-weight: 700; margin: 20px 0 6px; }
+    p { color: #c8cad4; margin-bottom: 12px; font-size: 0.92rem; }
+    .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; }
+    .info-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px; margin-bottom: 12px;
+    }
+    .info-block p { margin: 0; color: var(--text); }
+    .info-block .label { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { opacity: 0.8; }
+    ul { color: #c8cad4; font-size: 0.92rem; padding-left: 20px; margin-bottom: 12px; }
+    ul li { margin-bottom: 6px; }
+    .divider { height: 1px; background: var(--border); margin: 28px 0; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <rect width="28" height="28" rx="7" fill="#4f8ef7"/>
+      <path d="M7 20L14 8L21 20" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 16H18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    LexLead
+  </div>
+  <div class="nav-right"><a href="/">← Zurück</a></div>
+</nav>
+
+<div class="page">
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('impressum', this)">Impressum</button>
+    <button class="tab" onclick="showTab('datenschutz', this)">Datenschutzerklärung</button>
+  </div>
+
+  <!-- ── IMPRESSUM ────────────────────────────────────────────────────── -->
+  <div id="impressum" class="pane active">
+    <h1>Impressum</h1>
+    <p class="subtitle">Angaben gemäß § 5 TMG</p>
+
+    <div class="info-block">
+      <div class="label">Anbieter</div>
+      <p>Patrick Rümmler</p>
+    </div>
+    <div class="info-block">
+      <div class="label">Anschrift</div>
+      <p>Ossietzkystraße 11C<br>13187 Berlin<br>Deutschland</p>
+    </div>
+    <div class="info-block">
+      <div class="label">Kontakt</div>
+      <p>E-Mail: <a href="mailto:lpruemmler@gmail.com">lpruemmler@gmail.com</a></p>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>Patrick Rümmler, Ossietzkystraße 11C, 13187 Berlin</p>
+
+    <h2>Streitschlichtung</h2>
+    <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+    <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a>.</p>
+    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+    Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den
+    allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+    verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
+
+    <h2>Urheberrecht</h2>
+    <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
+    deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung
+    außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen
+    Autors bzw. Erstellers.</p>
+  </div>
+
+  <!-- ── DATENSCHUTZ ───────────────────────────────────────────────────── -->
+  <div id="datenschutz" class="pane">
+    <h1>Datenschutzerklärung</h1>
+    <p class="subtitle">Stand: Mai 2026 · Verantwortlicher: Patrick Rümmler</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Patrick Rümmler<br>Ossietzkystraße 11C, 13187 Berlin<br>
+    E-Mail: <a href="mailto:lpruemmler@gmail.com">lpruemmler@gmail.com</a></p>
+
+    <h2>2. Erhobene Daten & Zweck</h2>
+    <p>LexLead verarbeitet folgende personenbezogene Daten:</p>
+    <ul>
+      <li><strong>Registrierungsdaten:</strong> Name, E-Mail-Adresse, Firmenname — zur Bereitstellung des Dienstes</li>
+      <li><strong>E-Mail-Zugangsdaten (IMAP):</strong> Host, Port, Passwort — verschlüsselt gespeichert, ausschließlich zum Abruf eingehender Nachrichten</li>
+      <li><strong>Lead-Daten:</strong> Inhalte eingehender E-Mails, die zur KI-Analyse an die Anthropic API übermittelt werden</li>
+      <li><strong>Zahlungsdaten:</strong> werden ausschließlich durch Stripe verarbeitet — wir speichern keine Kreditkartendaten</li>
+      <li><strong>Nutzungsdaten:</strong> Log-Daten, Session-Daten zur technischen Bereitstellung des Dienstes</li>
+    </ul>
+
+    <h2>3. Rechtsgrundlage</h2>
+    <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung)
+    sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der sicheren Bereitstellung des Dienstes).</p>
+
+    <h2>4. Weitergabe an Dritte</h2>
+    <p>Daten werden nur an folgende Dienstleister weitergegeben, soweit dies zur Leistungserbringung notwendig ist:</p>
+    <ul>
+      <li><strong>Anthropic, Inc. (USA)</strong> — KI-Analyse eingehender E-Mail-Inhalte. Anthropic verarbeitet Daten gemäß eigener Datenschutzrichtlinie. Grundlage: Standardvertragsklauseln (SCC).</li>
+      <li><strong>Stripe, Inc. (USA)</strong> — Zahlungsabwicklung. Stripe ist PCI-DSS-zertifiziert. Grundlage: Standardvertragsklauseln (SCC).</li>
+      <li><strong>Render Services, Inc. (USA)</strong> — Hosting und Serverbetrieb. Grundlage: Standardvertragsklauseln (SCC).</li>
+    </ul>
+
+    <h2>5. Speicherdauer</h2>
+    <p>Daten werden gespeichert solange das Nutzerkonto aktiv ist. Nach Kündigung werden alle
+    personenbezogenen Daten innerhalb von 30 Tagen gelöscht, sofern keine gesetzlichen
+    Aufbewahrungspflichten entgegenstehen (z. B. Rechnungsdaten: 10 Jahre gemäß §147 AO).</p>
+
+    <h2>6. Ihre Rechte (DSGVO Art. 15–21)</h2>
+    <ul>
+      <li>Auskunft über gespeicherte Daten (Art. 15)</li>
+      <li>Berichtigung unrichtiger Daten (Art. 16)</li>
+      <li>Löschung Ihrer Daten (Art. 17)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18)</li>
+      <li>Datenübertragbarkeit (Art. 20)</li>
+      <li>Widerspruch gegen die Verarbeitung (Art. 21)</li>
+    </ul>
+    <p>Zur Ausübung Ihrer Rechte wenden Sie sich an: <a href="mailto:lpruemmler@gmail.com">lpruemmler@gmail.com</a></p>
+
+    <h2>7. Beschwerderecht</h2>
+    <p>Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.
+    Zuständig für Berlin: Berliner Beauftragte für Datenschutz und Informationsfreiheit,
+    Friedrichstr. 219, 10969 Berlin, <a href="https://www.datenschutz-berlin.de" target="_blank">www.datenschutz-berlin.de</a></p>
+
+    <h2>8. Cookies & Tracking</h2>
+    <p>LexLead verwendet ausschließlich technisch notwendige Session-Cookies zur Authentifizierung.
+    Es werden keine Tracking-Cookies, keine Analyse-Tools (Google Analytics o. ä.) und
+    keine Werbecookies eingesetzt.</p>
+
+    <h2>9. SSL-Verschlüsselung</h2>
+    <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte
+    eine SSL-bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die
+    Adresszeile des Browsers von „http://" auf „https://" wechselt.</p>
+  </div>
+
+</div>
+
+<script>
+  function showTab(id, el) {
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
+
 // ─── DASHBOARD ────────────────────────────────────────────────────────────────
 
 app.get('/dashboard', auth, (req, res) => {
@@ -2213,6 +2410,4 @@ async function start() {
 }
 
 start().catch(console.error);
-
-app.get('/legal', (req, res) => res.sendFile('/legal.html'));
 
