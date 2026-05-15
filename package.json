@@ -1,0 +1,28 @@
+{
+  "name": "lexlead",
+  "version": "3.0.0",
+  "description": "KI-gestützter Anfragen-Filter für Immobilienmakler",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "imap": "^0.8.19",
+    "mailparser": "^3.6.5",
+    "node-cron": "^3.0.3",
+    "sql.js": "^1.10.2",
+    "stripe": "^14.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
