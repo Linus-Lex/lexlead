@@ -43,6 +43,8 @@ function saveDB() {
 // Periodisch speichern (alle 60 Sekunden)
 setInterval(() => saveDB(), 60 * 1000);
 
+try { db.run(`ALTER TABLE users ADD COLUMN paid_until TEXT`); } catch(e) {}
+
 // ─── TABLES ────────────────────────────────────────────────────────────────
 function createTables() {
   db.run(`
@@ -406,6 +408,45 @@ function deleteTermin(id, userId) {
   saveDB();
 }
 
+function setUserPlan(userId, plan) {
+  db.run(`UPDATE users SET plan = ? WHERE id = ?`, [plan, userId]);
+  saveDB();
+}
+
+function activateSubscription(userId, subscriptionId, customerId, paidUntil) {
+  db.run(
+    `UPDATE users SET plan = 'paid', stripe_subscription_id = ?, stripe_customer_id = ?, paid_until = ? WHERE id = ?`,
+    [subscriptionId, customerId, paidUntil, userId]
+  );
+  saveDB();
+}
+
+function renewSubscription(customerId, paidUntil) {
+  db.run(
+    `UPDATE users SET paid_until = ? WHERE stripe_customer_id = ?`,
+    [paidUntil, customerId]
+  );
+  saveDB();
+}
+
+function markPaymentFailed(customerId) {
+  db.run(`UPDATE users SET plan = 'payment_failed' WHERE stripe_customer_id = ?`, [customerId]);
+  saveDB();
+}
+
+function cancelSubscription(customerId) {
+  db.run(`UPDATE users SET plan = 'cancelled' WHERE stripe_customer_id = ?`, [customerId]);
+  saveDB();
+}
+
+const resetCodes = {};
+function setResetCode(userId, code) {
+  resetCodes[userId] = { code, expires: Date.now() + 15 * 60 * 1000 };
+}
+function getResetCode(userId) {
+  return resetCodes[userId] || null;
+}
+
 // ─── EXPORTS ──────────────────────────────────────────────────────────────
 module.exports = {
   initDB,
@@ -453,4 +494,7 @@ module.exports = {
   getTermine,
   createTermin,
   deleteTermin,
-};
+
+  setUserPlan, activateSubscription, renewSubscription,
+markPaymentFailed, cancelSubscription, setResetCode, getResetCode
+}
