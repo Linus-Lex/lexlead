@@ -1023,6 +1023,38 @@ app.get('/einstellungen', subscriptionGuard, (req, res) => {
     <div class="page-header"><div class="page-title">Einstellungen</div></div>
     ${req.query.msg?`<div class="alert ${req.query.error?'alert-error':'alert-success'}">${req.query.msg}</div>`:''}
 
+    <!-- Portal-Weiterleitungen -->
+<div class="card mb-4">
+  <div style="font-weight:700;font-family:var(--font-display);font-size:1rem;margin-bottom:6px">🏠 Portal-Weiterleitungen einrichten</div>
+  <div class="text-sm text-muted" style="margin-bottom:16px">Damit LexLead die vollständige Anfrage lesen kann, muss das Portal die E-Mail direkt weiterleiten — nicht nur eine Benachrichtigung senden.</div>
+
+  <div style="display:flex;flex-direction:column;gap:8px">
+    ${[
+      ['ImmoScout24','#3d7ef6','Mein IS24 → Einstellungen → Benachrichtigungen → "Anfragen per E-Mail" → deine LexLead-E-Mail eintragen'],
+      ['Immowelt','#f59e0b','Immowelt Profil → Einstellungen → E-Mail-Benachrichtigungen → Weiterleitungsadresse eintragen'],
+      ['Kleinanzeigen','#10b981','Kleinanzeigen → Mein Konto → Einstellungen → Benachrichtigungen → E-Mail-Adresse für Nachrichten'],
+      ['Immonet','#8b5cf6','Immonet → Mein Profil → Einstellungen → Kontaktanfragen per E-Mail weiterleiten'],
+    ].map(([name, color, anleitung]) => `
+    <div style="border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;background:var(--bg3)" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:10px;height:10px;border-radius:50%;background:${color}"></div>
+          <div style="font-weight:600;font-size:0.9rem">${name}</div>
+        </div>
+        <div class="text-sm text-muted">Anleitung anzeigen ↓</div>
+      </div>
+      <div style="display:none;padding:14px 16px;font-size:0.85rem;color:var(--muted2);line-height:1.7;border-top:1px solid var(--border)">
+        ${anleitung}
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <div class="mt-4" style="background:rgba(61,126,246,0.06);border:1px solid rgba(61,126,246,0.15);border-radius:var(--radius-sm);padding:12px 14px">
+    <div style="font-size:0.78rem;font-weight:700;color:var(--accent2);margin-bottom:5px;font-family:var(--font-display)">💡 Tipp</div>
+    <div class="text-sm text-muted">Am einfachsten: Eine eigene Gmail-Adresse (z.B. anfragen@gmail.com) erstellen, alle Portale dorthin weiterleiten lassen, und diese Gmail mit LexLead verbinden.</div>
+  </div>
+</div>
+
     <!-- E-Mail Accounts -->
     <div class="card mb-4">
       <div style="font-weight:700;font-family:var(--font-display);font-size:1rem;margin-bottom:16px">📬 E-Mail-Postfächer</div>
